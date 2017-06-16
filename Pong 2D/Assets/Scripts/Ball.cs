@@ -1,19 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
     //Variables
-    [SerializeField] private float speed = 30;
+    [SerializeField] private float speed = 20;
     private Rigidbody2D rgBody2D;
     public GameManager gameManager;
+    private float xOriginalPos;
+    private float yOriginalPos;
 
+    // API métodos
     // Use this for initialization
     void Start ()
     {
         this.rgBody2D = GetComponent<Rigidbody2D>();
         this.rgBody2D.velocity = Vector2.right * speed;
+        xOriginalPos = this.transform.position.x;
+        yOriginalPos = this.transform.position.y;
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -51,14 +58,27 @@ public class Ball : MonoBehaviour {
 
         if (collision.gameObject.name == "WallLeft")
         {
-            gameManager.enemyScore++;
+            gameManager.AddPointEnemy();
+            this.RestartBall();
         }
         if (collision.gameObject.name == "WallRight")
         {
-            gameManager.playerScore++;
+            gameManager.AddPointPlayer();
+            this.RestartBall();
         }
 
 
+    }
+
+    //Métodos custom
+    private void RestartBall()
+    {
+        this.speed = 20;
+        //esta forma es como modificamos la posición de un objeto, utilizamos su transform.position pero como eso es una propiedad ReadOnly, lo que hacemos es
+        //substituirla con nuestras coordenadas deseadas.
+        this.transform.position = new Vector3(xOriginalPos, yOriginalPos);
+        this.rgBody2D.velocity = Vector2.right * speed;
+        
     }
 
     float HitFactor (Vector2 ballPos, Vector2 racketPos, float racketHeight)
