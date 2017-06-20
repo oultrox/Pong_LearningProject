@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
-    //Variables
     [SerializeField] private float speed = 30;
     private Rigidbody2D rgBody2D;
     public GameManager gameManager;
@@ -15,7 +14,8 @@ public class Ball : MonoBehaviour {
     private TrailRenderer lineRender;
 
     // -----------API métodos-----------
-    // Use this for initialization
+    
+    // Inicialización
     void Start ()
     {
 
@@ -28,6 +28,7 @@ public class Ball : MonoBehaviour {
 
     }
 
+    // Función de la API para detectar colisiones y en base a lo que colisionó jugar.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Note: 'col' holds the collision information. If the
@@ -72,11 +73,14 @@ public class Ball : MonoBehaviour {
             gameManager.AddPointPlayer();
             StartCoroutine(RestartBall());
         }
+
         //¡Shake!
         CameraShake.Shake(0.1f,0.5f);
     }
 
     // -----------Métodos custom-----------
+
+    // Método de reinicio de el juego una vez alguien pierda o gana.
     IEnumerator RestartBall()
     {
         
@@ -100,6 +104,7 @@ public class Ball : MonoBehaviour {
     }
 
 
+    // Math para la colisión de los jugadores.
     float HitFactor (Vector2 ballPos, Vector2 racketPos, float racketHeight)
     {
         //ASCII racket art:
@@ -111,6 +116,7 @@ public class Ball : MonoBehaviour {
         return (ballPos.y - racketPos.y) / racketHeight;
     }
 
+    // Método random que se llama desde el script del enemigo para poder así tener imprecisión en su "IA".
     private void NewRandom()
     {
         random = UnityEngine.Random.Range(-2f, 2f);

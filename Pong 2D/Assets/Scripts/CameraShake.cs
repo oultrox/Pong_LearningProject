@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraShake : MonoBehaviour
 {
 	// toma el transform de sí mismo para la referencia posicional.
-	public Transform camTransform;
+	[SerializeField] private Transform camTransform;
 	// Define cuánto durará el shake y es la variable que se debe modificar para activar el shake.
 	public static float shakeDuration = 0f;
 	// Amplitud del shake. Mientras más grande el valor, más duro será.
@@ -13,6 +13,7 @@ public class CameraShake : MonoBehaviour
 	
 	Vector3 originalPos;
 	
+    // -------- Métodos API ---------------
 	void Awake()
 	{
 		if (camTransform == null)
@@ -30,6 +31,7 @@ public class CameraShake : MonoBehaviour
 	{
 		if (shakeDuration > 0)
 		{
+            //algoritmo de ubicaciónd de la cámara para generar el shake con la función matemática de Random.insideUnitSphere.
 			camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
 			
 			shakeDuration -= Time.deltaTime * decreaseFactor;
@@ -44,7 +46,9 @@ public class CameraShake : MonoBehaviour
 			
 		}
 	}
+    // ----------- Métodos custom --------
 
+    // Método estático para llamarlo desde cualquier otro script de manera más limpia.
     public static void Shake(float time, float amount)
     {
 

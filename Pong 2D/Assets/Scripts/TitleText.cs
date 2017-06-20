@@ -7,16 +7,8 @@ using UnityEngine.SceneManagement;
 public class TitleText : MonoBehaviour {
 
     [SerializeField] private int textType;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
+    //Dependiendo del numero del tipo del texto el código actuará diferente cuando se active el trigger de clickearlo.
     public void SeleccionHUD()
     {
         if (this.textType == 1)
@@ -27,8 +19,5 @@ public class TitleText : MonoBehaviour {
         {
             Application.Quit();
         }
-        
-
-
     }
 }

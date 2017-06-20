@@ -6,26 +6,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-
-    //Variables
     public int playerScore;
     public int enemyScore;
     public Text playerText;
     public Text enemyText;
 
-    //API métodos.
+    //------- API métodos ---------
 
     // Use this for initialization
     void Start ()
     {
         InitGame();
 	}
-    // Update is called once per frame
-    void Update ()
-    {
-		
-	}
-
     public void AddPointPlayer()
     {
         this.playerScore++;      
@@ -37,7 +29,7 @@ public class GameManager : MonoBehaviour {
         this.enemyText.text = this.enemyScore +"";
     }
 
-    // Métodos custom
+    // ---------- Métodos custom -----------
     private void InitGame()
     {
         this.playerScore = 0;
