@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour {
     public GameManager gameManager;
     private float xOriginalPos;
     private float yOriginalPos;
+    public static float random;
 
     // API métodos
     // Use this for initialization
@@ -20,7 +21,7 @@ public class Ball : MonoBehaviour {
         this.rgBody2D.velocity = Vector2.right * speed;
         xOriginalPos = this.transform.position.x;
         yOriginalPos = this.transform.position.y;
-        
+        random = 0;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,6 +43,7 @@ public class Ball : MonoBehaviour {
             
             //aplica la nueva velocidad.
             this.rgBody2D.velocity = dir * speed;
+            NewRandom();
         }
 
         if (collision.gameObject.name == "RacketRight")
@@ -66,8 +68,7 @@ public class Ball : MonoBehaviour {
             gameManager.AddPointPlayer();
             this.RestartBall();
         }
-
-
+        
     }
 
     //Métodos custom
@@ -78,7 +79,8 @@ public class Ball : MonoBehaviour {
         //substituirla con nuestras coordenadas deseadas.
         this.transform.position = new Vector3(xOriginalPos, yOriginalPos);
         this.rgBody2D.velocity = Vector2.right * speed;
-        
+        random = 0;
+
     }
 
     float HitFactor (Vector2 ballPos, Vector2 racketPos, float racketHeight)
@@ -90,6 +92,11 @@ public class Ball : MonoBehaviour {
         // || 
         // || -1 <- at the bottonm of the racket.
         return (ballPos.y - racketPos.y) / racketHeight;
+    }
+
+    private void NewRandom()
+    {
+        random = UnityEngine.Random.Range(-3.5f, 3.5f);
     }
 
 }
