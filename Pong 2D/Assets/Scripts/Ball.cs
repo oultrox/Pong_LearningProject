@@ -6,22 +6,26 @@ using UnityEngine;
 public class Ball : MonoBehaviour {
 
     //Variables
-    [SerializeField] private float speed = 20;
+    [SerializeField] private float speed = 30;
     private Rigidbody2D rgBody2D;
     public GameManager gameManager;
     private float xOriginalPos;
     private float yOriginalPos;
     public static float random;
+    private TrailRenderer lineRender;
 
-    // API métodos
+    // -----------API métodos-----------
     // Use this for initialization
     void Start ()
     {
+
         this.rgBody2D = GetComponent<Rigidbody2D>();
         this.rgBody2D.velocity = Vector2.right * speed;
         xOriginalPos = this.transform.position.x;
         yOriginalPos = this.transform.position.y;
         random = 0;
+        lineRender = GetComponent<TrailRenderer>();
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -61,27 +65,40 @@ public class Ball : MonoBehaviour {
         if (collision.gameObject.name == "WallLeft")
         {
             gameManager.AddPointEnemy();
-            this.RestartBall();
+            StartCoroutine(RestartBall());
         }
         if (collision.gameObject.name == "WallRight")
         {
             gameManager.AddPointPlayer();
-            this.RestartBall();
+            StartCoroutine(RestartBall());
         }
-        
+        //¡Shake!
+        CameraShake.Shake(0.1f,0.5f);
     }
 
-    //Métodos custom
-    private void RestartBall()
+    // -----------Métodos custom-----------
+    IEnumerator RestartBall()
     {
-        this.speed = 20;
+        
+        this.speed = 0;
+        this.rgBody2D.velocity = Vector2.right * speed;
         //esta forma es como modificamos la posición de un objeto, utilizamos su transform.position pero como eso es una propiedad ReadOnly, lo que hacemos es
         //substituirla con nuestras coordenadas deseadas.
         this.transform.position = new Vector3(xOriginalPos, yOriginalPos);
+        //Desactivamos el Trail effect
+        lineRender.enabled = false;
+        lineRender.time = 0;
+        yield return new WaitForSeconds(0.5f);
+        this.speed = 30;
+        //Aquí le damos la velocidad.
         this.rgBody2D.velocity = Vector2.right * speed;
         random = 0;
-
+        //Activamos trail effect
+        lineRender.enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        lineRender.time = 0.7f;
     }
+
 
     float HitFactor (Vector2 ballPos, Vector2 racketPos, float racketHeight)
     {
@@ -96,7 +113,7 @@ public class Ball : MonoBehaviour {
 
     private void NewRandom()
     {
-        random = UnityEngine.Random.Range(-3.5f, 3.5f);
+        random = UnityEngine.Random.Range(-2f, 2f);
     }
 
 }

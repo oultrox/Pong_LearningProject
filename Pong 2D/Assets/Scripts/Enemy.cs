@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     public Transform theBall;
-    public float speed = 1;
+    public float speed = 30;
     private Rigidbody2D rg2D;
     private float ballposY;
     private void Awake()
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour {
             }
         }else
         {
-            //rg2D.transform.position = new Vector2(0,rg2D.transform.position.y);
+            rg2D.transform.position = new Vector2(rg2D.transform.position.x, theBall.transform.position.y - 0.1f);
         }
     }
 }
