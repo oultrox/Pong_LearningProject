@@ -1,15 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using Eitrum;
 
-public class CameraShake : MonoBehaviour
+public class CameraShake : EiComponent
 {
-	// toma el transform de sí mismo para la referencia posicional.
 	[SerializeField] private Transform camTransform;
-	// Define cuánto durará el shake y es la variable que se debe modificar para activar el shake.
-	public static float shakeDuration = 0f;
-	// Amplitud del shake. Mientras más grande el valor, más duro será.
+    [SerializeField] private float decreaseFactor = 1.0f;
+
+    public static float shakeDuration = 0f;
 	public static float shakeAmount = 0.7f;
-	[SerializeField] private float decreaseFactor = 1.0f;
 	
 	Vector3 originalPos;
 	
@@ -20,6 +19,7 @@ public class CameraShake : MonoBehaviour
 		{
 			camTransform = GetComponent(typeof(Transform)) as Transform;
 		}
+        SubscribeUpdate();
 	}
 	
 	void OnEnable()
@@ -27,9 +27,9 @@ public class CameraShake : MonoBehaviour
 		originalPos = camTransform.localPosition;
 	}
 
-	void Update()
+	public override void  UpdateComponent(float timer)
 	{
-		if (shakeDuration > 0)
+		if (shakeDuration > 0.1)
 		{
             //algoritmo de ubicaciónd de la cámara para generar el shake con la función matemática de Random.insideUnitSphere.
 			camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
@@ -46,12 +46,11 @@ public class CameraShake : MonoBehaviour
 			
 		}
 	}
-    // ----------- Métodos custom --------
 
+    // ----------- Métodos custom --------
     // Método estático para llamarlo desde cualquier otro script de manera más limpia.
     public static void Shake(float time, float amount)
     {
-
         shakeDuration = time;
         shakeAmount = amount;
     }

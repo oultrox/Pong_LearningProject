@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Eitrum;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : EiComponent {
 
     public int playerScore;
     public int enemyScore;
@@ -16,8 +14,10 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        InitGame();
-	}
+        this.playerScore = 0;
+        this.enemyScore = 0;
+    }
+
     public void AddPointPlayer()
     {
         this.playerScore++;      
@@ -30,11 +30,6 @@ public class GameManager : MonoBehaviour {
     }
 
     // ---------- Métodos custom -----------
-    private void InitGame()
-    {
-        this.playerScore = 0;
-        this.enemyScore = 0;
-    }
     public void SetPlayerScore(int score)
     {
         playerScore = score;

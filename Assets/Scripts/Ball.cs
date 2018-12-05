@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Eitrum;
 
-public class Ball : MonoBehaviour {
+public class Ball : EiComponent {
 
     [SerializeField] private float speed = 30;
     private Rigidbody2D rgBody2D;
@@ -16,16 +17,14 @@ public class Ball : MonoBehaviour {
     // -----------API métodos-----------
     
     // Inicialización
-    void Start ()
+    void Awake ()
     {
-
         this.rgBody2D = GetComponent<Rigidbody2D>();
         this.rgBody2D.velocity = Vector2.right * speed;
         xOriginalPos = this.transform.position.x;
         yOriginalPos = this.transform.position.y;
         random = 0;
         lineRender = GetComponent<TrailRenderer>();
-
     }
 
     // Función de la API para detectar colisiones y en base a lo que colisionó jugar.
